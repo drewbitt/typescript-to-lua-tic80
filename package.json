@@ -1,0 +1,17 @@
+{
+  "name": "typescript-to-lua-base",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.ts",
+  "devDependencies": {
+    "typescript": "^4.9.4",
+    "typescript-to-lua": "^1.11.1"
+  },
+  "scripts": {
+    "build": "tstl",
+    "dev": "tstl --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "drewbitt",
+  "license": "MIT"
+}

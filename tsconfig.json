@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "lib": ["esnext"],
+    "moduleResolution": "node",
+    "types": [],
+    "strict": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "tstl": {
+    "luaTarget": "JIT"
+  }
+}
