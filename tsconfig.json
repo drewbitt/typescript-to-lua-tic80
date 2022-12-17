@@ -3,11 +3,12 @@
     "target": "esnext",
     "lib": ["esnext"],
     "moduleResolution": "node",
-    "types": [],
+    "types": ["@typescript-to-lua/language-extensions"],
     "strict": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
   },
   "tstl": {
-    "luaTarget": "JIT"
+    "luaTarget": "5.3",
+    "noImplicitSelf": true,
   }
 }
