@@ -22,7 +22,8 @@ function TIC() {
 declare const floorDivision: LuaFloorDivision<number, number, number>;
 
 /**
- *  title:  game title
+ Metadata
+ title:  game title
  author: drewbitt
  desc:   short description
 
@@ -55,4 +56,4 @@ declare const floorDivision: LuaFloorDivision<number, number, number>;
  000:100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
  </TRACKS>
  */
-function addAnnotations() {/* Empty method for hack to add TIC-80 annotations to lua */}
+function addMetadata() {/* Empty method for hack to add TIC-80 metadata to lua */}
