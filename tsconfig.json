@@ -2,13 +2,16 @@
   "compilerOptions": {
     "target": "esnext",
     "lib": ["esnext"],
-    "moduleResolution": "node",
+    "moduleResolution": "nodenext",
+    "moduleDetection": "force",
     "types": ["@typescript-to-lua/language-extensions"],
     "strict": true,
-    "forceConsistentCasingInFileNames": true,
+    "forceConsistentCasingInFileNames": true
   },
   "tstl": {
     "luaTarget": "5.3",
     "noImplicitSelf": true,
+    "noHeader": true,
+    "buildMode": "default"
   }
 }
