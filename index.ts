@@ -1,4 +1,7 @@
-// Do not ever use a module for TIC() as TIC-80 will not find `local function TIC()`
+/*
+Prevents using a module for TIC() as TIC-80 will not find `local function TIC()` without it being included globally
+Also add for OVR, SCN, MENU, BOOT, BDR as needed
+*/
 const global = globalThis as typeof globalThis & { TIC: () => void };
 if (global.TIC === undefined) {
 	global.TIC = () => TIC();
