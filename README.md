@@ -4,6 +4,18 @@ Base project for writing TIC-80 games in Typescript by transpiling to Lua.
 
 Utilizes [TypeScriptToLua](https://typescripttolua.github.io/)
 
+## Running the Project
+
+In `tsconfig.json`, the "files" config determines what is transpiled to lua. You will need to adjust this to include the files you want to transpile when you run `tstl`.
+
+You can run this project with either:
+
+```bash
+pnpm run build
+# or
+npx tstl
+```
+
 ## Bundling
 
 In development no bundling is needed. Using the typescript `import` function will generate lua code utilizing the `require` function. TIC-80 will find the file being imported via `require` in the current directory.
