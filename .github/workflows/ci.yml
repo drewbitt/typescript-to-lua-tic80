@@ -1,0 +1,86 @@
+name: TypeScript to Lua Build and Validation
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build-and-validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Cache pnpm dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-
+
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build project
+        run: pnpm run build
+
+      - name: Check Lua syntax
+        run: |
+          sudo apt-get install -y lua5.3
+          lua5.3 -e "assert(loadfile('index.lua'))"
+
+      - name: Install TIC-80 dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install libglu1-mesa-dev libasound2-dev libpulse-dev libaudio-dev libsamplerate0-dev -y
+          sudo apt-get install cmake build-essential -y
+
+      - name: Checkout TIC-80
+        run: |
+          git clone --depth 1 --no-single-branch --recursive https://github.com/nesbox/TIC-80.git
+          cd TIC-80
+          TAG=$(git describe --tags `git ls-remote --tags --sort="v:refname" origin | tail -n1 | sed 's/.*refs\/tags\///'`)
+          git fetch --depth 1 origin tag $TAG
+          git checkout $TAG
+          echo "TIC80_TAG=$TAG" >> $GITHUB_ENV
+
+      - name: Cache TIC-80 build
+        uses: actions/cache@v3
+        with:
+          path: TIC-80/build
+          key: tic80-build-${{ env.TIC80_TAG }}
+          restore-keys: |
+            tic80-build-
+
+      - name: Build TIC-80
+        run: |
+          cd TIC-80/build
+          if [[ ! -f "bin/tic80" ]]; then
+            cmake -DBUILD_PRO=On ..
+            cmake --build . --parallel
+          fi
+
+      - name: Validate Lua files
+        run: |
+          OUTPUT=$(timeout -s KILL 10s ./TIC-80/build/bin/tic80 index.lua --cli || true)
+          ERROR=$(echo "$OUTPUT" | awk -F'loading cart...' '/loading cart.../ {print $2}')
+          if [[ -n "$ERROR" ]]; then
+            echo "Validation failed."
+            echo "Full output: $OUTPUT"
+            exit 1
+          else
+            echo "Validation succeeded."
+          fi
