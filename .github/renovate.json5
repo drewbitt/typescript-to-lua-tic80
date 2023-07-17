@@ -3,8 +3,9 @@
   extends: ["config:base"],
   packageRules: [
     {
-      updateTypes: ["patch"],
+      updateTypes: ["patch", "minor"],
       automerge: true,
+      labels: ["automerge"],
     },
   ],
 }
