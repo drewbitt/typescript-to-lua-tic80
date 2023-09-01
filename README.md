@@ -6,7 +6,7 @@ Utilizes [TypeScriptToLua](https://typescripttolua.github.io/)
 
 ## Running the Project
 
-In `tsconfig.json`, the "files" config determines what is transpiled to lua. You will need to adjust this to include the files you want to transpile when you run `tstl`.
+In `tsconfig.json`, the "files" config determines what is transpiled to Lua. You will need to adjust this to include the files you want to transpile when you run `tstl`.
 
 You can run this project with either:
 
@@ -14,6 +14,16 @@ You can run this project with either:
 pnpm run build
 # or
 npx tstl
+```
+
+### Watch mode
+
+Or, you can run in watch mode to automatically transpile when files are changed:
+
+```bash
+pnpm run dev
+# or
+npx tstl --watch
 ```
 
 ## Bundling
