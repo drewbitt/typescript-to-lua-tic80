@@ -14,8 +14,8 @@ dependencies:
 
 devDependencies:
   '@typescript-to-lua/language-extensions':
-    specifier: 1.0.0
-    version: 1.0.0
+    specifier: 1.19.0
+    version: 1.19.0
   lua-format:
     specifier: 1.4.1
     version: 1.4.1
@@ -24,6 +24,11 @@ packages:
 
   /@typescript-to-lua/language-extensions@1.0.0:
     resolution: {integrity: sha512-GtmhFqyg+txpGgGLM3mlS3R6AEG9MQhKALxxcbr6SBzg9u7YAXcPKqUBaBYd6nH+Pi/eQLcWz4BNOLhz8v4TjQ==}
+    dev: false
+
+  /@typescript-to-lua/language-extensions@1.19.0:
+    resolution: {integrity: sha512-Os5wOKwviTD4LeqI29N0btYOjokSJ97iCf45EOjIABlb5IwNQy7AE/AqZJobRw3ywHH8+KzJUMkEirWPzh2tUA==}
+    dev: true
 
   /enhanced-resolve@5.15.0:
     resolution: {integrity: sha512-LXYT42KJ7lpIKECr2mAXIaMldcNCh/7E0KBKOu4KSfkHmP+mZmSs+8V5gBAqisWBy0OO4W5Oyys0GO1Y8KtdKg==}
