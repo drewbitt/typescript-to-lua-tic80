@@ -9,8 +9,8 @@ dependencies:
     specifier: 5.2.2
     version: 5.2.2
   typescript-to-lua:
-    specifier: 1.19.0
-    version: 1.19.0(typescript@5.2.2)
+    specifier: 1.19.1
+    version: 1.19.1(typescript@5.2.2)
 
 devDependencies:
   '@typescript-to-lua/language-extensions':
@@ -22,13 +22,8 @@ devDependencies:
 
 packages:
 
-  /@typescript-to-lua/language-extensions@1.0.0:
-    resolution: {integrity: sha512-GtmhFqyg+txpGgGLM3mlS3R6AEG9MQhKALxxcbr6SBzg9u7YAXcPKqUBaBYd6nH+Pi/eQLcWz4BNOLhz8v4TjQ==}
-    dev: false
-
   /@typescript-to-lua/language-extensions@1.19.0:
     resolution: {integrity: sha512-Os5wOKwviTD4LeqI29N0btYOjokSJ97iCf45EOjIABlb5IwNQy7AE/AqZJobRw3ywHH8+KzJUMkEirWPzh2tUA==}
-    dev: true
 
   /enhanced-resolve@5.15.0:
     resolution: {integrity: sha512-LXYT42KJ7lpIKECr2mAXIaMldcNCh/7E0KBKOu4KSfkHmP+mZmSs+8V5gBAqisWBy0OO4W5Oyys0GO1Y8KtdKg==}
@@ -96,14 +91,14 @@ packages:
     engines: {node: '>=6'}
     dev: false
 
-  /typescript-to-lua@1.19.0(typescript@5.2.2):
-    resolution: {integrity: sha512-/nHg9Ayq0cgb3wbcVrVLpjaKfPvp02ymrkwR857EOqCyIN4C8NS0pG9/8hUJQQ2VNR1rRAOUSFICbmQRnJT8GQ==}
+  /typescript-to-lua@1.19.1(typescript@5.2.2):
+    resolution: {integrity: sha512-VfUdGKXZAB95E1BDSNFRLAb5RGJRiFbKPdnFdcEvW7FXXfpDYr3vOR1bZZ/USCIwbMazOEdHViNAsDRtqdG6Aw==}
     engines: {node: '>=16.10.0'}
     hasBin: true
     peerDependencies:
       typescript: 5.2.2
     dependencies:
-      '@typescript-to-lua/language-extensions': 1.0.0
+      '@typescript-to-lua/language-extensions': 1.19.0
       enhanced-resolve: 5.15.0
       picomatch: 2.3.1
       resolve: 1.22.2
