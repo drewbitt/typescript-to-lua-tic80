@@ -6,11 +6,11 @@ settings:
 
 dependencies:
   typescript:
-    specifier: 5.2.2
-    version: 5.2.2
+    specifier: 5.3.2
+    version: 5.3.2
   typescript-to-lua:
     specifier: 1.21.0
-    version: 1.21.0(typescript@5.2.2)
+    version: 1.21.0(typescript@5.3.2)
 
 devDependencies:
   '@typescript-to-lua/language-extensions':
@@ -91,7 +91,7 @@ packages:
     engines: {node: '>=6'}
     dev: false
 
-  /typescript-to-lua@1.21.0(typescript@5.2.2):
+  /typescript-to-lua@1.21.0(typescript@5.3.2):
     resolution: {integrity: sha512-xvr7bxeQ3uTIs5yU1IocB5wIgnNzpkELKHu7Y1Die7+xzrk87/NGU0I+cQX6i1t64Ml/1O6rVi23Yc9jRkD0Rw==}
     engines: {node: '>=16.10.0'}
     hasBin: true
@@ -103,11 +103,11 @@ packages:
       picomatch: 2.3.1
       resolve: 1.22.2
       source-map: 0.7.4
-      typescript: 5.2.2
+      typescript: 5.3.2
     dev: false
 
-  /typescript@5.2.2:
-    resolution: {integrity: sha512-mI4WrpHsbCIcwT9cF4FZvr80QUeKvsUsUvKDoR+X/7XHQH98xYD8YHZg7ANtz2GtZt/CBq2QJ0thkGJMHfqc1w==}
+  /typescript@5.3.2:
+    resolution: {integrity: sha512-6l+RyNy7oAHDfxC4FzSJcz9vnjTKxrLpDG5M2Vu4SHRVNg6xzqZp6LYSR9zjqQTu8DU/f5xwxUdADOkbrIX2gQ==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
