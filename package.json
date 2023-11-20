@@ -5,7 +5,7 @@
   "main": "index.ts",
   "dependencies": {
     "typescript": "5.3.2",
-    "typescript-to-lua": "1.21.0"
+    "typescript-to-lua": "1.22.0"
   },
   "devDependencies": {
     "@typescript-to-lua/language-extensions": "1.19.0",
