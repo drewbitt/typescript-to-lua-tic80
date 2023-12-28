@@ -9,8 +9,8 @@ dependencies:
     specifier: 5.3.3
     version: 5.3.3
   typescript-to-lua:
-    specifier: 1.22.0
-    version: 1.22.0(typescript@5.3.3)
+    specifier: 1.23.0
+    version: 1.23.0(typescript@5.3.3)
 
 devDependencies:
   '@typescript-to-lua/language-extensions':
@@ -91,12 +91,12 @@ packages:
     engines: {node: '>=6'}
     dev: false
 
-  /typescript-to-lua@1.22.0(typescript@5.3.3):
-    resolution: {integrity: sha512-6rMbWj/NsNQ/phNFVtMZj5LdHucUPdrmKP4VFsynM7SGtm2zR2RMLnZcJM3unrDb1VCAR6FnL7GJoKp77yM5qw==}
+  /typescript-to-lua@1.23.0(typescript@5.3.3):
+    resolution: {integrity: sha512-DZ6RWdtT058I2TtXl2odQxyPSdIg0+gGGwNG7zof0mxfFb55x2uRzzve7hfJ/yElP2osTSU6GAwt0zVkPmIt2w==}
     engines: {node: '>=16.10.0'}
     hasBin: true
     peerDependencies:
-      typescript: 5.2.2
+      typescript: 5.3.3
     dependencies:
       '@typescript-to-lua/language-extensions': 1.19.0
       enhanced-resolve: 5.15.0
