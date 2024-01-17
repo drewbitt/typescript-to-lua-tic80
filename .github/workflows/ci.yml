@@ -54,7 +54,7 @@ jobs:
           echo "TIC80_TAG=$TAG" >> $GITHUB_ENV
 
       - name: Cache TIC-80 build
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: TIC-80/build
           key: tic80-build-${{ env.TIC80_TAG }}
