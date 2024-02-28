@@ -41,7 +41,7 @@ jobs:
       - name: Install TIC-80 dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install libglu1-mesa-dev libasound2-dev libpulse-dev libaudio-dev libsamplerate0-dev doxygen libcurl4-openssl-dev -y
+          sudo apt-get install ruby-full libglvnd-dev libglu1-mesa-dev freeglut3-dev libasound2-dev libsamplerate0-dev doxygen libcurl4-openssl-dev -y
           sudo apt-get install cmake build-essential -y
 
       - name: Checkout TIC-80
