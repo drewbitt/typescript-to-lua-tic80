@@ -1,3 +1,5 @@
+/* https://github.com/scambier/tic80-typescript/blob/master/tocopy/tic.d.ts */
+
 /**
  * Allows you to read the status of one of the buttons attached to TIC. The function returns true if the key with the supplied id is currently in the pressed state. It remains true for as long as the key is held down. If you want to test if a key was just pressed, use btnp instead.
  * @param id the id of the key we want to interrogate, see the key map for reference
@@ -209,7 +211,7 @@ declare function map(
     tile: number,
     x: number,
     y: number
-  ) => [number, number?, number?] | number | void
+  ) => [number, number?, number?] | number
 ): void
 
 /**
