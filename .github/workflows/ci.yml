@@ -51,6 +51,7 @@ jobs:
           TAG=$(git describe --tags `git ls-remote --tags --sort="v:refname" origin | tail -n1 | sed 's/.*refs\/tags\///'`)
           git fetch --depth 1 origin tag $TAG
           git checkout $TAG
+          git submodule update --init --recursive
           echo "TIC80_TAG=$TAG" >> $GITHUB_ENV
 
       - name: Cache TIC-80 build
