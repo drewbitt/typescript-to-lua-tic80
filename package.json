@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "@typescript-to-lua/language-extensions": "1.19.0",
-    "lua-format": "1.4.1"
+    "lua-format": "1.5.1"
   },
   "scripts": {
     "build": "tstl",
