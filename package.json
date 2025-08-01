@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.ts",
   "dependencies": {
-    "typescript": "5.8.3",
+    "typescript": "5.9.2",
     "typescript-to-lua": "1.31.4"
   },
   "devDependencies": {
