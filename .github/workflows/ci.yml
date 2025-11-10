@@ -18,6 +18,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v5
+        with:
+          submodules: recursive
+          fetch-depth: 0
 
       - name: Set up Node.js
         uses: actions/setup-node@v5
@@ -46,19 +49,19 @@ jobs:
 
       - name: Checkout TIC-80
         run: |
-          git clone --depth 1 --no-single-branch --recursive https://github.com/nesbox/TIC-80.git
+          git clone --recursive https://github.com/nesbox/TIC-80.git
           cd TIC-80
-          TAG=$(git describe --tags `git ls-remote --tags --sort="v:refname" origin | tail -n1 | sed 's/.*refs\/tags\///'`)
-          git fetch --depth 1 origin tag $TAG
-          git checkout $TAG
+          LATEST_TAG=$(git describe --tags `git ls-remote --tags --sort="v:refname" origin | tail -n1 | sed 's/.*refs\/tags\///'`)
+          git fetch origin tag $LATEST_TAG
+          git checkout $LATEST_TAG
           git submodule update --init --recursive
-          echo "TIC80_TAG=$TAG" >> $GITHUB_ENV
+          echo "TIC-80_TAG=$LATEST_TAG" >> $GITHUB_ENV
 
       - name: Cache TIC-80 build
         uses: actions/cache@v4
         with:
           path: TIC-80/build
-          key: tic80-build-${{ env.TIC80_TAG }}
+          key: tic80-build-${{ env.TIC-80_TAG }}
           restore-keys: |
             tic80-build-
 
