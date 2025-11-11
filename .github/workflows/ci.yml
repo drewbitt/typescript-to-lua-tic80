@@ -54,29 +54,9 @@ jobs:
           LATEST_TAG=$(git ls-remote --tags --sort="v:refname" origin | tail -n1 | sed 's/.*refs\/tags\///')
           git fetch origin tag $LATEST_TAG
           git checkout $LATEST_TAG
-          # Initialize submodules
-          git submodule init
-          # Update submodules, handling the case where direct commit fetch fails
-          # by manually cloning problematic submodules with full history
-          git submodule update --recursive 2>&1 | tee /tmp/submodule.log || {
-            # Extract failed submodule path from error message
-            FAILED_SUBMODULE=$(grep -oE "submodule path '[^']*'|Fetched in submodule path '[^']*'" /tmp/submodule.log | head -1 | sed -E "s/.*submodule path '([^']*)'.*/\1/")
-            if [ -n "$FAILED_SUBMODULE" ]; then
-              echo "Attempting to fix submodule: $FAILED_SUBMODULE"
-              COMMIT=$(git ls-tree HEAD "$FAILED_SUBMODULE" | awk '{print $3}')
-              URL=$(git config -f .gitmodules --get "submodule.$FAILED_SUBMODULE.url")
-              TOPLEVEL=$(pwd)
-              rm -rf "$FAILED_SUBMODULE"
-              # Clone with full history to ensure the commit is available
-              git clone --no-single-branch "$URL" "$FAILED_SUBMODULE"
-              cd "$FAILED_SUBMODULE"
-              # Fetch all refs to ensure the commit is available, then checkout
-              git fetch --all --tags
-              git checkout "$COMMIT"
-              cd "$TOPLEVEL"
-            fi
-            # Retry the update for remaining submodules
-            git submodule update --recursive
+          git submodule update --init --recursive || {
+            git submodule sync
+            git submodule update --init --recursive
           }
           echo "TIC-80_TAG=$LATEST_TAG" >> $GITHUB_ENV
 
