@@ -1,84 +1,108 @@
-name: TypeScript to Lua Build and Validation
+name: Build and Validate
 
 on:
   push:
     branches:
       - master
     paths-ignore:
-      - 'README.md'
+      - README.md
   pull_request:
     branches:
       - master
     paths-ignore:
-      - 'README.md'
+      - README.md
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
-  build-and-validate:
+  build:
+    name: Build and Validate
     runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      TIC80_BUILD_DIR: TIC-80/build
 
     steps:
-      - uses: actions/checkout@v5
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
-          submodules: recursive
           fetch-depth: 0
 
       - name: Set up Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v4
         with:
-          node-version: 24.11.0
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
 
-      - name: Install pnpm
-        run: npm install -g pnpm
+      - name: Enable corepack
+        run: corepack enable
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
 
-      - name: Build project
+      - name: Build TypeScript sources
         run: pnpm run build
 
-      - name: Check Lua syntax
-        run: |
-          sudo apt-get install -y lua5.3
-          lua5.3 -e "assert(loadfile('index.lua'))"
-
-      - name: Install TIC-80 dependencies
+      - name: Install Lua 5.3
         run: |
           sudo apt-get update
-          sudo apt-get install ruby-full libglvnd-dev libglu1-mesa-dev freeglut3-dev libasound2-dev libsamplerate0-dev doxygen libcurl4-openssl-dev -y
-          sudo apt-get install build-essential -y
+          sudo apt-get install -y lua5.3
 
-      - name: Checkout TIC-80
+      - name: Check Lua syntax
+        run: lua5.3 -e "assert(loadfile('index.lua'))"
+
+      - name: Resolve TIC-80 release
+        id: tic80
         run: |
-          git clone https://github.com/nesbox/TIC-80.git
-          cd TIC-80
-          LATEST_TAG=$(git ls-remote --tags --sort="v:refname" origin | tail -n1 | sed 's/.*refs\/tags\///')
-          git fetch origin tag $LATEST_TAG
-          git checkout $LATEST_TAG
-          git submodule update --init --recursive || {
-            git submodule sync
-            git submodule update --init --recursive
-          }
-          echo "TIC-80_TAG=$LATEST_TAG" >> $GITHUB_ENV
+          latest_tag=$(
+            git ls-remote --tags --sort="v:refname" https://github.com/nesbox/TIC-80.git \
+            | grep -v '\^{}' \
+            | tail -n 1 \
+            | sed 's/.*\///'
+          )
+          echo "tag=$latest_tag" >> "$GITHUB_OUTPUT"
+          echo "TIC80_TAG=$latest_tag" >> "$GITHUB_ENV"
 
-      - name: Cache TIC-80 build
+      - name: Restore TIC-80 build cache
+        id: tic80-cache
         uses: actions/cache@v4
         with:
-          path: TIC-80/build
-          key: tic80-build-${{ env.TIC-80_TAG }}
-          restore-keys: |
-            tic80-build-
+          path: ${{ env.TIC80_BUILD_DIR }}
+          key: tic80-build-${{ steps.tic80.outputs.tag }}
+
+      - name: Install TIC-80 build dependencies
+        if: steps.tic80-cache.outputs.cache-hit != 'true'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            ruby-full \
+            libglvnd-dev \
+            libglu1-mesa-dev \
+            freeglut3-dev \
+            libasound2-dev \
+            libsamplerate0-dev \
+            doxygen \
+            libcurl4-openssl-dev \
+            build-essential
+
+      - name: Fetch TIC-80 source
+        if: steps.tic80-cache.outputs.cache-hit != 'true'
+        run: |
+          git clone --depth 1 --branch "${{ steps.tic80.outputs.tag }}" --single-branch https://github.com/nesbox/TIC-80.git
+          git -C TIC-80 submodule update --init --recursive
 
       - name: Build TIC-80
+        if: steps.tic80-cache.outputs.cache-hit != 'true'
         run: |
-          cd TIC-80/build
-          if [[ ! -f "bin/tic80" ]]; then
-            cmake -DBUILD_PRO=On ..
-            cmake --build . --parallel
-          fi
+          cmake -S TIC-80 -B "${{ env.TIC80_BUILD_DIR }}" -DBUILD_PRO=On
+          cmake --build "${{ env.TIC80_BUILD_DIR }}" --parallel
 
       - name: Validate Lua files
         run: |
-          OUTPUT=$(timeout -s KILL 10s ./TIC-80/build/bin/tic80 index.lua --cli || true)
+          OUTPUT=$(timeout -s KILL 10s "./${{ env.TIC80_BUILD_DIR }}/bin/tic80" index.lua --cli || true)
           ERROR=$(echo "$OUTPUT" | awk -F'loading cart...' '/loading cart.../ {print $2}')
           if [[ -n "$ERROR" ]]; then
             echo "Validation failed."
