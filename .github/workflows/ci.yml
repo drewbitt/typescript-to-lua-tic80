@@ -72,7 +72,7 @@ jobs:
 
       - name: Restore TIC-80 build cache
         id: tic80-cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ${{ env.TIC80_BUILD_DIR }}
           key: tic80-build-${{ steps.tic80.outputs.tag }}
