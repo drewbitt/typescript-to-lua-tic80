@@ -4,6 +4,7 @@
     "target": "ESNext",
     "lib": ["ESNext"],
     "moduleResolution": "Node",
+    "ignoreDeprecations": "6.0",
     "moduleDetection": "force",
     "types": ["@typescript-to-lua/language-extensions"],
     "strict": true,
