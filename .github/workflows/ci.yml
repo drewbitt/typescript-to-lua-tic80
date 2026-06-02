@@ -26,19 +26,19 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v6.0.3
         with:
           submodules: recursive
           fetch-depth: 0
 
       - name: Set up pnpm
-        uses: pnpm/action-setup@v6
+        uses: pnpm/action-setup@v6.0.8
         with:
           version: latest
           run_install: false
 
       - name: Set up Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v6.4.0
         with:
           node-version: 24.16.0
           cache: pnpm
@@ -72,7 +72,7 @@ jobs:
 
       - name: Restore TIC-80 build cache
         id: tic80-cache
-        uses: actions/cache@v5
+        uses: actions/cache@v5.0.5
         with:
           path: ${{ env.TIC80_BUILD_DIR }}
           key: tic80-build-${{ steps.tic80.outputs.tag }}
