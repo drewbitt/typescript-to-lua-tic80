@@ -1,53 +1,56 @@
-# Typescript to Lua for TIC-80
+# TIC-80 TypeScript starter
 
-Base project for writing TIC-80 games in Typescript by transpiling to Lua.
+Write a [TIC-80](https://tic80.com/) game in TypeScript. [TypeScriptToLua](https://typescripttolua.github.io/) compiles the project to one Lua text cartridge.
 
-Utilizes [TypeScriptToLua](https://typescripttolua.github.io/)
+[Use this template](https://github.com/drewbitt/typescript-to-lua-tic80/generate) to create a repository.
 
-The build uses TypeScript 7 for type-checking and the TypeScript 6 compatibility
-package for Lua transpilation. TypeScriptToLua depends on the legacy TypeScript
-compiler API, which TypeScript 7 does not expose.
+## Before you start
 
-## Running the Project
+- Node.js 22 or newer
+- pnpm 11.21.0
+- [TIC-80 Pro](https://github.com/nesbox/TIC-80/wiki/PRO-Version), or a source build made with `BUILD_PRO=On`, to open and save Lua text cartridges
 
-In `tsconfig.json`, the "files" config determines what is transpiled to Lua. You will need to adjust this to include the files you want to transpile when you run `tstl`.
+Run `npx get-pnpm` if pnpm isn't installed.
 
-You can run this project with either:
+## Get started
 
-```bash
-pnpm run build
-# or
-pnpm exec tstl
+```sh
+pnpm install
+pnpm start
 ```
 
-### Watch mode
+`pnpm start` builds `index.lua` and opens it in TIC-80. If the executable is not named `tic80`, change the `play` script in `package.json`.
 
-Or, you can run in watch mode to automatically transpile when files are changed:
+## Code and cartridge data
 
-```bash
-pnpm run dev
-# or
-npx tstl --watch
-```
+Put game code in `index.ts`. Imported TypeScript modules are bundled into `index.lua`; there is no separate bundler or manual `require` step.
 
-## Bundling
+TIC-80 calls frame callbacks from Lua's global table. The sample assigns `globalThis.TIC`, and TypeScriptToLua writes `_G.TIC`. This is the same callback as `function TIC()` in TIC-80's Lua examples. The declarations in `tic.d.ts` also cover `BOOT`, `OVR`, `SCN`, `MENU`, and `BDR`.
 
-In development no bundling is needed. Using the typescript `import` function will generate lua code utilizing the `require` function. TIC-80 will find the file being imported via `require` in the current directory.
+TIC-80 uses Lua comments such as `-- title: game` and `-- <TILES>` instead of a separate frontmatter file. Those comments live in `assets.lua` and are added to the generated cartridge during each build.
 
-In production or when wanting to run the application without being in the same directory as the source files, it is recommended to use [TQ-Bundler](https://github.com/scambier/TQ-Bundler) to bundle the application into a single file. To use TQ-Bundler, replace the `require` function in lua code with `include` statements.
+When you edit sprites, maps, sound, or music in TIC-80:
 
-```lua
--- Lua syntax
-include "macros" -- will look for ./macros.lua
-include "tools.utils" -- ./tools/utils.lua
-```
+1. Save the cart before rebuilding or reloading it.
+2. Run `pnpm sync-assets` before the next build.
+3. Commit the updated `assets.lua`.
 
-TQ-Bundler will replace the `include` statements with the contents of the file being included. Follow instructions in the TQ-Bundler repository to install and use.
+Builds read from `assets.lua` and never copy data back from `index.lua`. This keeps an old generated cart from replacing newer tracked assets. Do not leave `pnpm dev` running while TIC-80 has unsaved resource edits; both programs can write the same file.
 
-## Minification
+Read TIC-80's [cartridge metadata](https://github.com/nesbox/TIC-80/wiki/Cartridge-Metadata) and [external editor](https://github.com/nesbox/TIC-80/wiki/External-Editor) pages for the comment format and save rules.
 
-Included in the `scripts` folder is a script to minify the lua code. This is not required, but can be used to reduce the size of the lua code. To use, run `node scripts/minify.js <path to lua file>`. This will create a new file with the same name as the original file in the `dist` folder, but with `.min.lua` appended to the end.
+## Commands
 
-Note: Comments will not be included in minified code. Therefore, TIC-80 metadata will not be included. This can be added back in manually.
+| Command | Purpose |
+| --- | --- |
+| `pnpm build` | Type-check, bundle the TypeScript modules, and add `assets.lua` to `index.lua` |
+| `pnpm dev` | Rebuild `index.lua` when a TypeScript file changes |
+| `pnpm start` | Build and open the cartridge in TIC-80 |
+| `pnpm play` | Open the existing cartridge without rebuilding |
+| `pnpm sync-assets` | Copy saved metadata and resource comments from `index.lua` to `assets.lua` |
+| `pnpm test` | Test cartridge-data handling and run a complete build |
+| `pnpm typecheck` | Check the project with native TypeScript 7 |
 
-This is largely untested and may not work as expected for TIC-80 specific API code. You can also try using `TQ-Bundler` to bundle the application and minify the bundled file.
+## Why two TypeScript packages?
+
+TypeScriptToLua 1.37.1 uses the TypeScript 6 compiler API. The build keeps Microsoft's TypeScript 6 compatibility package for Lua output and runs native TypeScript 7 as a separate type check.

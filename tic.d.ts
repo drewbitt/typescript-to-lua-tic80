@@ -1,4 +1,11 @@
-/* https://github.com/scambier/tic80-typescript/blob/master/tocopy/tic.d.ts */
+/* Based on https://github.com/scambier/tic80-typescript/blob/6edc8cb7a42940328abf77d1e97f89c7a00c5ae2/tocopy/tic.d.ts */
+
+declare function BOOT(): void
+declare function TIC(): void
+declare function OVR(): void
+declare function SCN(line: number): void
+declare function MENU(index: number): void
+declare function BDR(row: number): void
 
 /**
  * Allows you to read the status of one of the buttons attached to TIC. The function returns true if the key with the supplied id is currently in the pressed state. It remains true for as long as the key is held down. If you want to test if a key was just pressed, use btnp instead.
@@ -349,7 +356,7 @@ declare function pmem(index: number): number
  * @param val the integer value write to RAM (range varies based on bits)
  * @param bits : the number of bits to write (1, 2, 4, or 8; default: 8)
  */
-declare function poke(addr: number, val: number, bits?: 1 | 2 | 3 | 4): void
+declare function poke(addr: number, val: number, bits?: 1 | 2 | 4 | 8): void
 
 /**
  * The equivalent of poke(addr, val, 4)

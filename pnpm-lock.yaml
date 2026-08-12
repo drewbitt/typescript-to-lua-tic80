@@ -7,7 +7,10 @@ settings:
 importers:
 
   .:
-    dependencies:
+    devDependencies:
+      '@typescript-to-lua/language-extensions':
+        specifier: 1.19.0
+        version: 1.19.0
       '@typescript/native':
         specifier: npm:typescript@7.0.2
         version: typescript@7.0.2
@@ -17,13 +20,6 @@ importers:
       typescript-to-lua:
         specifier: 1.37.1
         version: 1.37.1(@typescript/typescript6@6.0.2)
-    devDependencies:
-      '@typescript-to-lua/language-extensions':
-        specifier: 1.19.0
-        version: 1.19.0
-      lua-format:
-        specifier: 1.5.2
-        version: 1.5.2
 
 packages:
 
@@ -172,14 +168,11 @@ packages:
     resolution: {integrity: sha512-UfoeMA6fIJ8wTYFEUjelnaGI67v6+N7qXJEvQuIGa99l4xsCruSYOVSQ0uPANn4dAzm8lkYPaKLrrijLq7x23w==}
     engines: {node: '>= 0.4'}
 
-  lua-format@1.5.2:
-    resolution: {integrity: sha512-/MWt8pfA5qY1LNVf+CqRUPn/tGlp1OoTF1JhwyD7Q3qpfNX0UxVGUicpkBVnDsqoEtBTb/gJPy8ca3Jw0Lsq3Q==}
-
   path-parse@1.0.7:
     resolution: {integrity: sha512-LDJzPVEEEPR+y48z93A0Ed0yXb8pAByGWo/k5YYdYgpY2/2EsOsksJrq7lOHxryrVOn1ejG6oAp8ahvOIQD8sw==}
 
-  picomatch@2.3.1:
-    resolution: {integrity: sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==}
+  picomatch@2.3.2:
+    resolution: {integrity: sha512-V7+vQEJ06Z+c5tSye8S+nHUfI51xoXIXjHQ99cQtKUkQqqO1kO/KCJUfZXuB47h/YBlDhah2H3hdUGXn8ie0oA==}
     engines: {node: '>=8.6'}
 
   resolve@1.22.11:
@@ -301,11 +294,9 @@ snapshots:
     dependencies:
       hasown: 2.0.2
 
-  lua-format@1.5.2: {}
-
   path-parse@1.0.7: {}
 
-  picomatch@2.3.1: {}
+  picomatch@2.3.2: {}
 
   resolve@1.22.11:
     dependencies:
@@ -323,7 +314,7 @@ snapshots:
     dependencies:
       '@typescript-to-lua/language-extensions': 1.19.0
       enhanced-resolve: 5.8.2
-      picomatch: 2.3.1
+      picomatch: 2.3.2
       resolve: 1.22.11
       source-map: 0.7.6
       typescript: '@typescript/typescript6@6.0.2'

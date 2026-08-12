@@ -16,29 +16,25 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     name: Build and Validate
     runs-on: ubuntu-latest
-    timeout-minutes: 30
-    env:
-      TIC80_BUILD_DIR: TIC-80/build
+    timeout-minutes: 10
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v7.0.1
-        with:
-          submodules: recursive
-          fetch-depth: 0
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Set up pnpm
-        uses: pnpm/action-setup@v6.0.10
-        with:
-          version: latest
-          run_install: false
+        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
 
       - name: Set up Node.js
-        uses: actions/setup-node@v7.0.0
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 24.19.0
           cache: pnpm
@@ -58,62 +54,14 @@ jobs:
       - name: Check Lua syntax
         run: lua5.3 -e "assert(loadfile('index.lua'))"
 
-      - name: Resolve TIC-80 release
-        id: tic80
+      - name: Smoke test generated Lua
         run: |
-          latest_tag=$(
-            git ls-remote --tags --sort="v:refname" https://github.com/nesbox/TIC-80.git \
-            | grep -v '\^{}' \
-            | tail -n 1 \
-            | sed 's/.*\///'
-          )
-          echo "tag=$latest_tag" >> "$GITHUB_OUTPUT"
-          echo "TIC80_TAG=$latest_tag" >> "$GITHUB_ENV"
-
-      - name: Restore TIC-80 build cache
-        id: tic80-cache
-        uses: actions/cache@v6.1.0
-        with:
-          path: ${{ env.TIC80_BUILD_DIR }}
-          key: tic80-build-${{ steps.tic80.outputs.tag }}
-          restore-keys: |
-            tic80-build-
-
-      - name: Install TIC-80 build dependencies
-        if: steps.tic80-cache.outputs.cache-hit != 'true'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y \
-            ruby-full \
-            libglvnd-dev \
-            libglu1-mesa-dev \
-            freeglut3-dev \
-            libasound2-dev \
-            libsamplerate0-dev \
-            doxygen \
-            libcurl4-openssl-dev \
-            build-essential
-
-      - name: Fetch TIC-80 source
-        if: steps.tic80-cache.outputs.cache-hit != 'true'
-        run: |
-          git clone --depth 1 --branch "${{ steps.tic80.outputs.tag }}" --single-branch https://github.com/nesbox/TIC-80.git
-          git -C TIC-80 submodule update --init --recursive
-
-      - name: Build TIC-80
-        if: steps.tic80-cache.outputs.cache-hit != 'true'
-        run: |
-          cmake -S TIC-80 -B "${{ env.TIC80_BUILD_DIR }}" -DBUILD_PRO=On
-          cmake --build "${{ env.TIC80_BUILD_DIR }}" --parallel
-
-      - name: Validate Lua files
-        run: |
-          OUTPUT=$(timeout -s KILL 10s "./${{ env.TIC80_BUILD_DIR }}/bin/tic80" index.lua --cli || true)
-          ERROR=$(echo "$OUTPUT" | awk -F'loading cart...' '/loading cart.../ {print $2}')
-          if [[ -n "$ERROR" ]]; then
-            echo "Validation failed."
-            echo "Full output: $OUTPUT"
-            exit 1
-          else
-            echo "Validation succeeded."
-          fi
+          lua5.3 -e '
+            btn = function() return false end
+            cls = function() end
+            spr = function() end
+            print = function() end
+            dofile("index.lua")
+            assert(type(TIC) == "function")
+            TIC()
+          '
