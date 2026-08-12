@@ -4,6 +4,10 @@ Base project for writing TIC-80 games in Typescript by transpiling to Lua.
 
 Utilizes [TypeScriptToLua](https://typescripttolua.github.io/)
 
+The build uses TypeScript 7 for type-checking and the TypeScript 6 compatibility
+package for Lua transpilation. TypeScriptToLua depends on the legacy TypeScript
+compiler API, which TypeScript 7 does not expose.
+
 ## Running the Project
 
 In `tsconfig.json`, the "files" config determines what is transpiled to Lua. You will need to adjust this to include the files you want to transpile when you run `tstl`.
@@ -13,7 +17,7 @@ You can run this project with either:
 ```bash
 pnpm run build
 # or
-npx tstl
+pnpm exec tstl
 ```
 
 ### Watch mode
