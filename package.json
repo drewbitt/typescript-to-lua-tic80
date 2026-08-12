@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.ts",
   "dependencies": {
-    "typescript": "7.0.2",
+    "@typescript/native": "npm:typescript@7.0.2",
+    "typescript": "npm:@typescript/typescript6@6.0.2",
     "typescript-to-lua": "1.37.1"
   },
   "devDependencies": {
@@ -12,10 +13,11 @@
     "lua-format": "1.5.2"
   },
   "scripts": {
-    "build": "tstl",
+    "build": "pnpm run typecheck && tstl",
     "dev": "tstl --watch",
     "run": "tic80",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "typecheck": "tsc --noEmit"
   },
   "author": "drewbitt",
   "license": "MIT"

@@ -8,12 +8,15 @@ importers:
 
   .:
     dependencies:
+      '@typescript/native':
+        specifier: npm:typescript@7.0.2
+        version: typescript@7.0.2
       typescript:
-        specifier: 7.0.2
-        version: 7.0.2
+        specifier: npm:@typescript/typescript6@6.0.2
+        version: '@typescript/typescript6@6.0.2'
       typescript-to-lua:
         specifier: 1.37.1
-        version: 1.37.1(typescript@7.0.2)
+        version: 1.37.1(@typescript/typescript6@6.0.2)
     devDependencies:
       '@typescript-to-lua/language-extensions':
         specifier: 1.19.0
@@ -147,6 +150,10 @@ packages:
     cpu: [x64]
     os: [win32]
 
+  '@typescript/typescript6@6.0.2':
+    resolution: {integrity: sha512-mbCddXd+jm7hfx7w2YU64/Av4/NqqeG3GoRZgxPcgoTxYjhrcfJRw9ULch71SS4G+Q3bOXFhRvPqjguN0Hyp5w==}
+    hasBin: true
+
   enhanced-resolve@5.8.2:
     resolution: {integrity: sha512-F27oB3WuHDzvR2DOGNTaYy0D5o0cnrv8TeI482VM4kYgQd/FT9lUQwuNsJ0oOHtBUq7eiW5ytqzp7nBFknL+GA==}
     engines: {node: '>=10.13.0'}
@@ -198,6 +205,11 @@ packages:
     hasBin: true
     peerDependencies:
       typescript: 6.0.2
+
+  typescript@6.0.3:
+    resolution: {integrity: sha512-y2TvuxSZPDyQakkFRPZHKFm+KKVqIisdg9/CZwm9ftvKXLP8NRWj38/ODjNbr43SsoXqNuAisEf1GdCxqWcdBw==}
+    engines: {node: '>=14.17'}
+    hasBin: true
 
   typescript@7.0.2:
     resolution: {integrity: sha512-8FYau96o3NKOhbjKi/qNvG/W5jhzxkbdm5sj9AbZ/5T5sWqn3hJgLfGx27sRKZWTvyzCP8dLRBTf5tBTSRVUNA==}
@@ -268,6 +280,10 @@ snapshots:
   '@typescript/typescript-win32-x64@7.0.2':
     optional: true
 
+  '@typescript/typescript6@6.0.2':
+    dependencies:
+      '@typescript/old': typescript@6.0.3
+
   enhanced-resolve@5.8.2:
     dependencies:
       graceful-fs: 4.2.11
@@ -303,14 +319,16 @@ snapshots:
 
   tapable@2.3.0: {}
 
-  typescript-to-lua@1.37.1(typescript@7.0.2):
+  typescript-to-lua@1.37.1(@typescript/typescript6@6.0.2):
     dependencies:
       '@typescript-to-lua/language-extensions': 1.19.0
       enhanced-resolve: 5.8.2
       picomatch: 2.3.1
       resolve: 1.22.11
       source-map: 0.7.6
-      typescript: 7.0.2
+      typescript: '@typescript/typescript6@6.0.2'
+
+  typescript@6.0.3: {}
 
   typescript@7.0.2:
     optionalDependencies:
