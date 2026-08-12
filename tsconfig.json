@@ -11,10 +11,16 @@
   },
   "tstl": {
     "luaTarget": "5.3",
+    "luaBundle": "index.lua",
+    "luaBundleEntry": "index.ts",
+    "luaPlugins": [
+      {
+        "name": "./scripts/tic80-plugin.js",
+        "assets": "assets.lua"
+      }
+    ],
     "noImplicitSelf": true,
-    "noHeader": true,
-    "buildMode": "default"
+    "noHeader": true
   },
-  "include": ["tic.d.ts"],
-  "files": ["index.ts"]
+  "include": ["**/*.ts"]
 }

@@ -1,19 +1,20 @@
 {
-    "version": "2.0.0",
-    "tasks": [
-      {
-        "type": "npm",
-        "script": "dev",
-        "problemMatcher": "$tsc-watch",
-        "isBackground": true,
-        "presentation": { "reveal": "never" },
-        "group": { "kind": "build", "isDefault": true }
-      },
-      {
-        "type": "npm",
-        "script": "run -- ${fileDirname}${pathSeparator}${fileBasenameNoExtension}.lua",
-        "presentation": { "reveal": "never" },
-        "problemMatcher": [],
-      }
-    ]
-  }
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "TSTL: watch",
+      "type": "shell",
+      "command": "pnpm run dev",
+      "problemMatcher": "$tsc-watch",
+      "isBackground": true,
+      "presentation": { "reveal": "never" },
+      "group": { "kind": "build", "isDefault": true }
+    },
+    {
+      "label": "TIC-80: build and play",
+      "type": "shell",
+      "command": "pnpm start",
+      "problemMatcher": []
+    }
+  ]
+}

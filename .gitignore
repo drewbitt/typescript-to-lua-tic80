@@ -1,4 +1,5 @@
-node_modules
-*.lua
-.local
-dist
+node_modules/
+dist/
+index.lua
+.local/
+TIC-80/

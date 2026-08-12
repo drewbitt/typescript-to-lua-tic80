@@ -3,7 +3,8 @@
   extends: ["config:js-app"],
   packageRules: [
     {
-      "matchUpdateTypes": ["minor", "patch", "pin", "digest", "devDependencies"],
+      matchDepTypes: ["devDependencies"],
+      matchUpdateTypes: ["minor", "patch", "pin", "digest"],
       automerge: true,
       labels: ["automerge"],
     },

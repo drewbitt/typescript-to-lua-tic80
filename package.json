@@ -1,24 +1,27 @@
 {
-  "name": "typescript-to-lua-base",
+  "name": "typescript-to-lua-tic80",
   "version": "0.1.0",
-  "description": "",
-  "main": "index.ts",
-  "dependencies": {
+  "private": true,
+  "description": "Starter template for building TIC-80 Lua games in TypeScript.",
+  "scripts": {
+    "build": "pnpm run typecheck && tstl",
+    "dev": "tstl --watch",
+    "play": "tic80 --skip --keepcmd --fs=. --cmd \"load index.lua & run\"",
+    "sync-assets": "node scripts/tic80-plugin.js --sync",
+    "start": "pnpm run build && pnpm run play",
+    "test": "node --test && pnpm run build",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@typescript-to-lua/language-extensions": "1.19.0",
     "@typescript/native": "npm:typescript@7.0.2",
     "typescript": "npm:@typescript/typescript6@6.0.2",
     "typescript-to-lua": "1.37.1"
   },
-  "devDependencies": {
-    "@typescript-to-lua/language-extensions": "1.19.0",
-    "lua-format": "1.5.2"
+  "engines": {
+    "node": ">=22"
   },
-  "scripts": {
-    "build": "pnpm run typecheck && tstl",
-    "dev": "tstl --watch",
-    "run": "tic80",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "typecheck": "tsc --noEmit"
-  },
+  "packageManager": "pnpm@11.21.0",
   "author": "drewbitt",
   "license": "MIT"
 }
