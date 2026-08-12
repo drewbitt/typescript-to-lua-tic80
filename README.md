@@ -7,7 +7,7 @@ Write a [TIC-80](https://tic80.com/) game in TypeScript. [TypeScriptToLua](https
 ## Before you start
 
 - Node.js 22 or newer
-- pnpm 11.21.0
+- pnpm 11
 - [TIC-80 Pro](https://github.com/nesbox/TIC-80/wiki/PRO-Version), or a source build made with `BUILD_PRO=On`, to open and save Lua text cartridges
 
 Run `npx get-pnpm` if pnpm isn't installed.
@@ -21,23 +21,36 @@ pnpm start
 
 `pnpm start` builds `index.lua` and opens it in TIC-80. If the executable is not named `tic80`, change the `play` script in `package.json`.
 
-## Code and cartridge data
+## Project files
 
-Put game code in `index.ts`. Imported TypeScript modules are bundled into `index.lua`; there is no separate bundler or manual `require` step.
+| File | Contents |
+| --- | --- |
+| `index.ts` and other `.ts` files | Game code |
+| `assets.lua` | Cartridge metadata, sprites, maps, sound, and music |
+| `index.lua` | Generated cartridge; do not commit it |
 
-TIC-80 calls frame callbacks from Lua's global table. The sample assigns `globalThis.TIC`, and TypeScriptToLua writes `_G.TIC`. This is the same callback as `function TIC()` in TIC-80's Lua examples. The declarations in `tic.d.ts` also cover `BOOT`, `OVR`, `SCN`, `MENU`, and `BDR`.
+TIC-80 expects its callbacks in Lua's global table. Define them with `globalThis`:
 
-TIC-80 uses Lua comments such as `-- title: game` and `-- <TILES>` instead of a separate frontmatter file. Those comments live in `assets.lua` and are added to the generated cartridge during each build.
+```ts
+globalThis.TIC = function TIC() {
+	// Runs once per frame.
+};
+```
 
-When you edit sprites, maps, sound, or music in TIC-80:
+TypeScriptToLua emits this as `_G.TIC`. `tic.d.ts` also declares `BOOT`, `OVR`, `SCN`, `MENU`, and `BDR`.
 
-1. Save the cart before rebuilding or reloading it.
-2. Run `pnpm sync-assets` before the next build.
+## Editing cartridge resources
+
+Edit cartridge resources in TIC-80. Then:
+
+1. Save the cart in TIC-80.
+2. Run `pnpm sync-assets`.
 3. Commit the updated `assets.lua`.
 
-Builds read from `assets.lua` and never copy data back from `index.lua`. This keeps an old generated cart from replacing newer tracked assets. Do not leave `pnpm dev` running while TIC-80 has unsaved resource edits; both programs can write the same file.
+> [!IMPORTANT]
+> Save and sync before rebuilding or reloading. `pnpm dev` rewrites `index.lua`, so stop it while TIC-80 has unsaved resource edits.
 
-Read TIC-80's [cartridge metadata](https://github.com/nesbox/TIC-80/wiki/Cartridge-Metadata) and [external editor](https://github.com/nesbox/TIC-80/wiki/External-Editor) pages for the comment format and save rules.
+Every build reads cartridge data from `assets.lua`. TIC-80's [cartridge metadata](https://github.com/nesbox/TIC-80/wiki/Cartridge-Metadata) and [external editor](https://github.com/nesbox/TIC-80/wiki/External-Editor) pages document the file format.
 
 ## Commands
 
