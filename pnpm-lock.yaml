@@ -185,8 +185,8 @@ importers:
         specifier: npm:@typescript/typescript6@6.0.2
         version: '@typescript/typescript6@6.0.2'
       typescript-to-lua:
-        specifier: 1.37.1
-        version: 1.37.1(@typescript/typescript6@6.0.2)
+        specifier: 1.37.2
+        version: 1.37.2(@typescript/typescript6@6.0.2)
 
 packages:
 
@@ -359,8 +359,8 @@ packages:
     resolution: {integrity: sha512-g9ljZiwki/LfxmQADO3dEY1CbpmXT5Hm2fJ+QaGKwSXUylMybePR7/67YW7jOrrvjEgL1Fmz5kzyAjWVWLlucg==}
     engines: {node: '>=6'}
 
-  typescript-to-lua@1.37.1:
-    resolution: {integrity: sha512-iOgG7UcfBxPzr2E/pNfamz2IEEOqub6nyivDoj2eDV5XRtKrHroCcR0uitvVzbRMUAITP71PHMJS3bNKVWG42g==}
+  typescript-to-lua@1.37.2:
+    resolution: {integrity: sha512-I2Oh6CSobk8s8HIPRnhwR8ba0ge+ASbeJrhf4l61rtSN8vrx8zdu4KXwNMEEJPM9ymKDrzu/fOw5ISugkzuI/Q==}
     engines: {node: '>=16.10.0'}
     hasBin: true
     peerDependencies:
@@ -477,7 +477,7 @@ snapshots:
 
   tapable@2.3.0: {}
 
-  typescript-to-lua@1.37.1(@typescript/typescript6@6.0.2):
+  typescript-to-lua@1.37.2(@typescript/typescript6@6.0.2):
     dependencies:
       '@typescript-to-lua/language-extensions': 1.19.0
       enhanced-resolve: 5.8.2
